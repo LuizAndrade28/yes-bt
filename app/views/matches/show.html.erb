@@ -4,6 +4,11 @@
     <% @plays.each do |play| %>
       <div class="d-flex mt-2">
         <p class="me-2"><%= play.play_number %></p>
+        <p class="me-2">Dupla 1: <%= play.players.first.name %> e <%= play.players[1].name %></p>
+        <p class="me-2">Games: <%= play.play_players[0].games_won %> x <%= play.play_players[2].games_won %></p>
+        <p class="me-2">Dupla 2: <%= play.players[2].name %> e <%= play.players[3].name %></p>
+        <%= link_to 'Editar', edit_match_play_path(@match, play) %>
+        <%= link_to 'Excluir', match_play_path(@match, play), data: { turbo_method: :delete, turbo_confirm: "Are you sure? This action is irreversible." } %>
       </div>
     <% end %>
 </section>

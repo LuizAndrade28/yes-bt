@@ -1,20 +1,22 @@
-<%= form_with model: [@match, @play], local: true do |f| %>
+<%= simple_form_for [@match, @play] do |f| %>
   <div>
-    <%= f.label :play_number, "Número do Play" %>
-    <%= f.number_field :play_number %>
+    <%= f.input :play_number, label: "Número do Play" %>
   </div>
 
   <h3>Jogadores</h3>
 
+  <div>
+    <%= f.input :games_won_dupla1, label: "Games Ganhos - Dupla 1", input_html: { maxlength: "1"} %>
+  </div>
+
+  <div>
+    <%= f.input :games_won_dupla2, label: "Games Ganhos - Dupla 2", input_html: { maxlength: "1"} %>
+  </div>
+
   <%= f.fields_for :play_players do |play_player_fields| %>
     <div class="player-fields">
       <div>
-        <%= play_player_fields.label :player_id, "Jogador" %>
-        <%= play_player_fields.collection_select :player_id, Player.all, :id, :name, prompt: "Selecione um Jogador" %>
-      </div>
-      <div>
-        <%= play_player_fields.label :games_won, "Games Ganhos" %>
-        <%= play_player_fields.number_field :games_won %>
+        <%= play_player_fields.input :player_id, collection: Player.all, label_method: :name, value_method: :id, label: "Jogador", prompt: "Selecione um Jogador" %>
       </div>
     </div>
   <% end %>
