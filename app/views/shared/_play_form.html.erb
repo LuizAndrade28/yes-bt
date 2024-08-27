@@ -1,20 +1,23 @@
-<div class="form-card">
-  <%= simple_form_for [@match, @play] do |f| %>
-    <%= f.error_notification %>
-    <% if f.object.errors[:base].present? %>
-      <%= f.error_notification message: f.object.errors[:base].to_sentence %>
-    <% end %>
+<%= form_with model: [@match, @play], local: true do |f| %>
+  <div>
+    <%= f.label :play_number, "Número do Play" %>
+    <%= f.number_field :play_number %>
+  </div>
 
-    <div>
-      <%= f.input :play_number, label: 'Play número', label_html: {class: "form-card__label"}, input_html: {class: "form-in__inpsel", maxlength: "50"} %>
-    </div>
+  <h3>Jogadores</h3>
 
-    <div class="todo-btns">
-        <%= f.submit "Salvar", class: "todo-btns__btn shadow-sm", name: "confirmar" %>
-        <% if action_name != "edit" %>
-          <%= f.submit "Salvar e criar novo jogador", class: "todo-btns__btn shadow-sm", name: "confirmar_e_criar" %>
-        <% end %>
-        <%= link_to "Voltar", root_path, class: "todo-btns__btn shadow-sm" %>
+  <%= f.fields_for :play_players do |play_player_fields| %>
+    <div class="player-fields">
+      <div>
+        <%= play_player_fields.label :player_id, "Jogador" %>
+        <%= play_player_fields.collection_select :player_id, Player.all, :id, :name, prompt: "Selecione um Jogador" %>
+      </div>
+      <div>
+        <%= play_player_fields.label :games_won, "Games Ganhos" %>
+        <%= play_player_fields.number_field :games_won %>
+      </div>
     </div>
   <% end %>
-</div>
+
+  <%= f.submit "Salvar Play" %>
+<% end %>

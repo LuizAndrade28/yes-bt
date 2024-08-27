@@ -3,12 +3,14 @@ class PlaysController < ApplicationController
   before_action :set_match, only: %i[new create update]
 
   def new
-    @play = Play.new
+    @play = @match.plays.new
+    4.times { @play.play_players.build }
   end
 
   def create
-    @play = Play.new(play_params)
+    @play = @match.plays.new(play_params)
     @play.match_id = @match.id
+
 
     if @play.save!
       redirect_to match_path(@match), notice: 'Play criado com sucesso. 🟢'
@@ -37,7 +39,7 @@ class PlaysController < ApplicationController
   private
 
   def play_params
-    params.require(:play).permit(:play_number)
+    params.require(:play).permit(:play_number, play_players_attributes: [:player_id, :games_won, :id, :_destroy])
   end
 
   def set_play
