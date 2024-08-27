@@ -1,0 +1,9 @@
+<section>
+  <h4>Partida <%= @match.id %></h4>
+    <%= link_to 'Criar novo play', new_match_play_path(@match) %>
+    <% @plays.each do |play| %>
+      <div class="d-flex mt-2">
+        <p class="me-2"><%= play.play_number %></p>
+      </div>
+    <% end %>
+</section>

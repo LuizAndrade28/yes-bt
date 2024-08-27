@@ -1,2 +1,39 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<h1>Beach Tennis Itanhangá - Ranking</h1>
+<hr>
+<%# Ver jogadores/editar e criar novos %>
+<section>
+  <h4>Jogadores</h4>
+  <%= link_to 'Criar novo jogador', new_player_path %>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Sexo</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @players.each do |player| %>
+        <tr>
+          <td><%= player.name %></td>
+          <td><%= player.gender %></td>
+          <td><%= link_to 'Editar jogador', edit_player_path(player) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</section>
+
+<%# Partidas %>
+<section>
+  <h4>Partidas</h4>
+  <%= link_to 'Criar nova partida', new_match_path %>
+    <% @matches.each do |match| %>
+      <div class="d-flex mt-2">
+        <p class="me-2"><%= match.match_date %></p>
+        <p class="me-2"><%= link_to 'Editar data', edit_match_path(match) %></p>
+        <p><%= link_to 'Ver partida', match_path(match) %></p>
+      </div>
+    <% end %>
+</section>

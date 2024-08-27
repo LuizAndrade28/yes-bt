@@ -1,0 +1,20 @@
+<div class="form-card">
+  <%= simple_form_for(@match) do |f| %>
+    <%= f.error_notification %>
+    <% if f.object.errors[:base].present? %>
+      <%= f.error_notification message: f.object.errors[:base].to_sentence %>
+    <% end %>
+
+    <div>
+      <%= f.input :match_date, label: 'Data', label_html: {class: "form-card__label"}, input_html: {class: "form-in__inpsel", maxlength: "50"} %>
+    </div>
+
+    <div class="todo-btns">
+        <%= f.submit "Salvar", class: "todo-btns__btn shadow-sm", name: "confirmar" %>
+        <% if action_name != "edit" %>
+          <%= f.submit "Salvar e criar novo jogador", class: "todo-btns__btn shadow-sm", name: "confirmar_e_criar" %>
+        <% end %>
+        <%= link_to "Voltar", root_path, class: "todo-btns__btn shadow-sm" %>
+    </div>
+  <% end %>
+</div>
