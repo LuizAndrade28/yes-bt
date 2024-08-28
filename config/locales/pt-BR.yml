@@ -41,6 +41,7 @@ pt-BR:
       default: "%d/%m/%Y"
       long: "%d de %B de %Y"
       short: "%d de %B"
+      day: "%A"
     month_names:
     -
     - janeiro
