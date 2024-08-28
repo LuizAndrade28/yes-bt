@@ -1,8 +1,4 @@
 <%= simple_form_for [@match, @play] do |f| %>
-  <div>
-    <%= f.input :play_number, label: "Número do Play" %>
-  </div>
-
   <h3>Jogadores</h3>
 
   <div>
@@ -22,4 +18,5 @@
   <% end %>
 
   <%= f.submit "Salvar Play" %>
+  <%= link_to "Back", match_path(@match), class: "todo-btns__btn shadow-sm" %>
 <% end %>

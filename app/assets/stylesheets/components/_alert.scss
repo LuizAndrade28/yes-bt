@@ -1,6 +1,13 @@
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; display: none; }
+}
+
 .alert {
   position: fixed;
   bottom: 16px;
   right: 16px;
   z-index: 1000;
+  animation: fadeOut 3s forwards;
 }

@@ -8,12 +8,17 @@
     <div>
       <%= f.input :name, label: 'Nome', label_html: {class: "form-card__label"}, input_html: {class: "form-in__inpsel", maxlength: "50"} %>
       <%= f.input :gender, label: 'Sexo', collection: [ "Feminino", "Masculino" ], label_html: { class: "form-card__label" }, input_html: { class: "form-in__inpsel" } %>
+      <% if action_name == "edit" %>
+        <%= f.input :sets_won, label: 'Pontos', label_html: {class: "form-card__label"}, input_html: {class: "form-in__inpsel", maxlength: "50"} %>
+        <%= f.input :games_won, label: 'Games Ganhos', label_html: {class: "form-card__label"}, input_html: {class: "form-in__inpsel", maxlength: "50"} %>
+        <%= f.input :games_lost, label: 'Games Perdidos', label_html: {class: "form-card__label"}, input_html: {class: "form-in__inpsel", maxlength: "50"} %>
+      <% end %>
     </div>
 
     <div class="todo-btns">
-        <%= f.submit "Salvar", class: "todo-btns__btn shadow-sm", name: "confirmar" %>
+        <%= f.submit "Salvar", class: "todo-btns__btn shadow-sm", name: "confirm" %>
         <% if action_name != "edit" %>
-          <%= f.submit "Salvar e criar novo jogador", class: "todo-btns__btn shadow-sm", name: "confirmar_e_criar" %>
+          <%= f.submit "Salvar e criar novo jogador", class: "todo-btns__btn shadow-sm", name: "confirm_and_create" %>
         <% end %>
         <%= link_to "Voltar", root_path, class: "todo-btns__btn shadow-sm" %>
     </div>
