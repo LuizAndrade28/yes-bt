@@ -38,37 +38,36 @@ class PlayersController < ApplicationController
     @player = Player.find(params[:id])
 
     ActiveRecord::Base.transaction do
-      @player.plays.each_with_index do |play, i|
-        playid = play.id
-        playplayers = PlayPlayer.where(play_id: playid).where.not(player_id: @player.id)
-        match_plays_count = Match.find(play.match_id).plays.count
+      @player.matches.each do |match|
+        match.plays.each_with_index do |play, i|
 
-        playplayers.each do |playplayer|
-          player_to_uptade = Player.find(playplayer.player_id)
-          play_games_won = playplayer.games_won
-          play_games_lost = playplayer.games_lost
+          playid = play.id
+          playplayers = PlayPlayer.where(play_id: playid).where.not(player_id: @player.id)
+          match_plays_count = Match.find(play.match_id).plays.count
 
-          player_to_uptade.games_won -= play_games_won
-          puts "Games lost: #{player_to_uptade.games_lost}"
-          puts  "Play games lost: #{play_games_lost}"
-          if player_to_uptade.games_lost < 0
-            player_to_uptade.games_lost += play_games_lost
-          else
-            player_to_uptade.games_lost -= play_games_lost
-          end
-          player_to_uptade.sets_won -= 1 if play_games_won == 6
+          playplayers.each do |playplayer|
+            player_to_uptade = Player.find(playplayer.player_id)
+            play_games_won = playplayer.games_won
+            play_games_lost = playplayer.games_lost
 
-            if player_to_uptade.save!
-              playplayer.destroy!
+            player_to_uptade.games_won -= play_games_won
+            if player_to_uptade.games_lost < 0
+              player_to_uptade.games_lost += play_games_lost
             else
-              raise ActiveRecord::Rollback
+              player_to_uptade.games_lost -= play_games_lost
             end
-        end
+            player_to_uptade.sets_won -= 1 if play_games_won == 6
 
-        # counter++
+              if player_to_uptade.save!
+                playplayer.destroy!
+              else
+                raise ActiveRecord::Rollback
+              end
+          end
 
-        if i + 1 == match_plays_count
-          Match.find(play.match_id).destroy!
+          if i + 1 == match_plays_count
+            Match.find(play.match_id).destroy!
+          end
         end
       end
 

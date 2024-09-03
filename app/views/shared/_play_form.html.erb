@@ -2,11 +2,11 @@
   <h3>Jogadores</h3>
 
   <div>
-    <%= f.input :games_won_dupla1, label: "Games Ganhos - Dupla 1", input_html: { maxlength: "1"} %>
+    <%= f.input :games_won_dupla1, as: :numeric, label: "Games Ganhos - Dupla 1", input_html: { min: 0, max: 6, oninput: "this.value = this.value.slice(0, 1)", pattern: "[0-6]*"} %>
   </div>
 
   <div>
-    <%= f.input :games_won_dupla2, label: "Games Ganhos - Dupla 2", input_html: { maxlength: "1"} %>
+    <%= f.input :games_won_dupla2, as: :numeric, label: "Games Ganhos - Dupla 2", input_html: { min: 0, max: 6, oninput: "this.value = this.value.slice(0, 1)", pattern: "[0-6]*"} %>
   </div>
 
   <% if action_name != 'edit' %>

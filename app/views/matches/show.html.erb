@@ -1,6 +1,8 @@
 <section>
   <h4>Partida <%= @match.id %></h4>
+  <% if @match.plays.count != 3 %>
     <%= link_to 'Criar novo play', new_match_play_path(@match) %>
+  <% end %>
     <%= link_to "Voltar", root_path, class: "todo-btns__btn shadow-sm" %>
     <% if @plays %>
       <% @plays&.each_with_index do |play, i| %>
