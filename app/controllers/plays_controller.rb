@@ -105,11 +105,35 @@ class PlaysController < ApplicationController
 
   def destroy
     @play = Play.find(params[:id])
-    if @play.destroy
-      redirect_to match_path(@match), notice: 'Play deletado com sucesso. 🟢'
-    else
-      redirect_to match_path(@match), alert: 'Erro ao deletar o play. 🔴'
+
+    ActiveRecord::Base.transaction do
+      @play.play_players.each do |play_player|
+        player = play_player.player
+
+        player.games_won -= play_player.games_won
+        if player.games_lost < 0
+          player.games_lost += play_player.games_lost
+        else
+          player.games_lost -= play_player.games_lost
+        end
+        player.sets_won -= 1 if play_player.games_won >= 6
+
+        if player.save!
+          play_player.destroy!
+        else
+          raise ActiveRecord::Rollback, 'Erro ao deletar o play jogador.'
+        end
+      end
+
+      if @play.destroy
+        redirect_to match_path(@match), notice: 'Play deletado com sucesso. 🟢'
+      else
+        redirect_to match_path(@match), alert: 'Erro ao deletar o play. 🔴'
+      end
     end
+  rescue => e
+    Rails.logger.error "Erro ao deletar o play: #{e.message}"
+    redirect_to match_path(@match), notice: "Erro ao deletar o play: #{e.message}"
   end
 
   private

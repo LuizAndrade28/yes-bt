@@ -49,8 +49,6 @@ class PlayersController < ApplicationController
           play_games_lost = playplayer.games_lost
 
           player_to_uptade.games_won -= play_games_won
-          puts "Games lost: #{player_to_uptade.games_lost}"
-          puts  "Play games lost: #{play_games_lost}"
           if player_to_uptade.games_lost < 0
             player_to_uptade.games_lost += play_games_lost
           else
@@ -64,8 +62,6 @@ class PlayersController < ApplicationController
               raise ActiveRecord::Rollback
             end
         end
-
-        # counter++
 
         if i + 1 == match_plays_count
           Match.find(play.match_id).destroy!
