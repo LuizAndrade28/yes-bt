@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_24_010113) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_02_205332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_24_010113) do
     t.integer "games_won"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "games_lost"
     t.index ["play_id"], name: "index_play_players_on_play_id"
     t.index ["player_id"], name: "index_play_players_on_player_id"
   end
@@ -45,10 +46,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_24_010113) do
     t.bigint "match_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "date_play"
+    t.integer "dupla1", default: [], array: true
+    t.integer "dupla2", default: [], array: true
+    t.integer "dupla1_games"
+    t.integer "dupla2_games"
     t.index ["match_id"], name: "index_plays_on_match_id"
   end
 
-  add_foreign_nj key "play_players", "players"
+  add_foreign_key "play_players", "players"
   add_foreign_key "play_players", "plays"
   add_foreign_key "plays", "matches"
 end

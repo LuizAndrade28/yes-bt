@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: %i[edit update destroy]
+  before_action :set_player, only: %i[edit update]
 
   def new
     @player = Player.new
@@ -11,12 +11,6 @@ class PlayersController < ApplicationController
     @player.games_won = 0
     @player.games_lost = 0
     @player.sets_won = 0
-
-    # if @player.save!
-    #   redirect_to @player, notice: 'Jogador criado com sucesso. 🟢'
-    # else
-    #   render :new, notice: 'Jogador não foi criado com sucesso. 🔴'
-    # end
 
     respond_to do |format|
       if params[:confirm].present? && @player.save!
@@ -34,16 +28,59 @@ class PlayersController < ApplicationController
 
   def update
     if @player.update!(player_params)
-      redirect_to @player, notice: 'Jogador atualizado com sucesso. 🟢'
+      redirect_to root_path, notice: 'Jogador atualizado com sucesso. 🟢'
     else
       render :edit, notice: 'Jogador não foi atualizado com sucesso. 🔴'
     end
   end
 
   def destroy
-    @player.destroy
+    @player = Player.find(params[:id])
 
-    redirect_to root_path
+    ActiveRecord::Base.transaction do
+      @player.plays.each_with_index do |play, i|
+        playid = play.id
+        playplayers = PlayPlayer.where(play_id: playid).where.not(player_id: @player.id)
+        match_plays_count = Match.find(play.match_id).plays.count
+
+        playplayers.each do |playplayer|
+          player_to_uptade = Player.find(playplayer.player_id)
+          play_games_won = playplayer.games_won
+          play_games_lost = playplayer.games_lost
+
+          player_to_uptade.games_won -= play_games_won
+          puts "Games lost: #{player_to_uptade.games_lost}"
+          puts  "Play games lost: #{play_games_lost}"
+          if player_to_uptade.games_lost < 0
+            player_to_uptade.games_lost += play_games_lost
+          else
+            player_to_uptade.games_lost -= play_games_lost
+          end
+          player_to_uptade.sets_won -= 1 if play_games_won == 6
+
+            if player_to_uptade.save!
+              playplayer.destroy!
+            else
+              raise ActiveRecord::Rollback
+            end
+        end
+
+        # counter++
+
+        if i + 1 == match_plays_count
+          Match.find(play.match_id).destroy!
+        end
+      end
+
+      if @player.destroy!
+        redirect_to root_path, notice: 'Jogador deletado com sucesso. 🟢'
+      else
+        redirect_to root_path, notice: 'Jogador não foi deletado com sucesso. 🔴'
+      end
+    end
+  rescue => e
+    Rails.logger.error "Erro ao deletar o player: #{e.message}"
+    redirect_to root_path, notice: "Erro ao deletar o player: #{e.message}"
   end
 
   private

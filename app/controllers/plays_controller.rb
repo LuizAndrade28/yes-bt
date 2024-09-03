@@ -10,14 +10,26 @@ class PlaysController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
       @play = @match.plays.new(play_params)
+      @play.date_play = @match.match_date
       @play.match_id = @match.id
 
       if params[:play][:games_won_dupla1].present? && params[:play][:games_won_dupla2].present?
+        jogador1 = params[:play][:play_players_attributes]["0"][:player_id].to_i
+        jogador2 = params[:play][:play_players_attributes]["1"][:player_id].to_i
+        jogador3 = params[:play][:play_players_attributes]["2"][:player_id].to_i
+        jogador4 = params[:play][:play_players_attributes]["3"][:player_id].to_i
+
+        @play.dupla1 = [jogador1, jogador2]
+        @play.dupla2 = [jogador3, jogador4]
+        @play.dupla1_games = params[:play][:games_won_dupla1].to_i
+        @play.dupla2_games = params[:play][:games_won_dupla2].to_i
+
         games_won_dupla1 = params[:play][:games_won_dupla1].to_i
         games_won_dupla2 = params[:play][:games_won_dupla2].to_i
 
         @play.dupla1.each do |pp|
           pp.games_won = games_won_dupla1
+          pp.games_lost = games_won_dupla2
           pp.player.games_won += games_won_dupla1
           pp.player.games_lost += games_won_dupla2
           pp.player.sets_won += 1 if games_won_dupla1 >= 6
@@ -26,6 +38,7 @@ class PlaysController < ApplicationController
 
         @play.dupla2.each do |pp|
           pp.games_won = games_won_dupla2
+          pp.games_lost = games_won_dupla1
           pp.player.games_won += games_won_dupla2
           pp.player.games_lost += games_won_dupla1
           pp.player.sets_won += 1 if games_won_dupla2 >= 6
@@ -39,7 +52,8 @@ class PlaysController < ApplicationController
         raise ActiveRecord::Rollback, 'Play não foi criado com sucesso.'
       end
     end
-    rescue => e
+  rescue => e
+      Rails.logger.error "Erro ao criar o play: #{e.message}"
       render :new, notice: "Erro ao criar o play: #{e.message}"
   end
 
@@ -51,19 +65,25 @@ class PlaysController < ApplicationController
       if params[:play][:games_won_dupla1].present? && params[:play][:games_won_dupla2].present?
         games_won_dupla1 = params[:play][:games_won_dupla1].to_i
         games_won_dupla2 = params[:play][:games_won_dupla2].to_i
+        @play.dupla1_games = games_won_dupla1
+        @play.dupla2_games = games_won_dupla2
 
         @play.dupla1.each do |pp|
           old_games_won = pp.games_won || 0
+          old_games_lost = pp.games_lost || 0
           pp.games_won = games_won_dupla1
-          update_player_stats(pp, games_won_dupla1, games_won_dupla2, old_games_won)
+          pp.games_lost = games_won_dupla2
+          update_player_stats(pp, games_won_dupla1, games_won_dupla2, old_games_won, old_games_lost)
           pp.player.save!
           pp.save!
         end
 
         @play.dupla2.each do |pp|
           old_games_won = pp.games_won || 0
+          old_games_lost = pp.games_lost || 0
           pp.games_won = games_won_dupla2
-          update_player_stats(pp, games_won_dupla2, games_won_dupla1, old_games_won)
+          pp.games_lost = games_won_dupla1
+          update_player_stats(pp, games_won_dupla2, games_won_dupla1, old_games_won, old_games_lost)
           pp.player.save!
           pp.save!
         end
@@ -79,7 +99,7 @@ class PlaysController < ApplicationController
         raise ActiveRecord::Rollback, 'Play não foi atualizado com sucesso.'
       end
     end
-    rescue => e
+  rescue => e
       render :edit, status: :unprocessable_entity, notice: "Erro ao atualizar o play: #{e.message}"
   end
 
@@ -98,7 +118,10 @@ class PlaysController < ApplicationController
     params.require(:play).permit(
                                 :games_won_dupla1,
                                 :games_won_dupla2,
-                                play_players_attributes: [:player_id, :id, :_destroy, :games_won]
+                                :date_play,
+                                :dupla1_games,
+                                :dupla2_games,
+                                play_players_attributes: [:player_id, :id, :_destroy, :games_won, :games_lost]
                               )
   end
 
@@ -110,12 +133,12 @@ class PlaysController < ApplicationController
     @match = Match.find(params[:match_id])
   end
 
-  def update_player_stats(play_player, games_won, games_lost, old_games_won = 0)
+  def update_player_stats(play_player, games_won, games_lost, old_games_won = 0, old_games_lost = 0)
     player = play_player.player
 
     # Atualiza as estatísticas do jogador com base nos games ganhos e perdidos
     player.games_won += (games_won - old_games_won)
-    player.games_lost += (games_lost - (6 - old_games_won))
+    player.games_lost += (games_lost - old_games_lost)
 
     # Atualiza sets ganhos ou perdidos
     if games_won >= 6 && old_games_won < 6
