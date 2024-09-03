@@ -6,4 +6,8 @@ class Match < ApplicationRecord
   def day
     I18n.l match_date, format: :day
   end
+
+  def plays_count
+    "#{plays.count} / 3 plays"
+  end
 end

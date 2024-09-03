@@ -41,7 +41,7 @@
     <tbody>
       <% @matches.each do |match| %>
         <tr>
-          <td><%= match.match_date %>, <%= match.day %></td>
+          <td><%= match.match_date %>, <%= match.day %> (<%= match.plays_count %>)</td>
           <td>
           <%= link_to 'Ver partida', match_path(match) %>
           <%= link_to 'Editar', edit_match_path(match) %>
