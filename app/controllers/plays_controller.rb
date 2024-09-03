@@ -74,8 +74,12 @@ class PlaysController < ApplicationController
           pp.games_won = games_won_dupla1
           pp.games_lost = games_won_dupla2
           update_player_stats(pp, games_won_dupla1, games_won_dupla2, old_games_won, old_games_lost)
-          pp.player.save!
-          pp.save!
+          if pp.player.save!
+            pp.save!
+          else
+            raise ActiveRecord::Rollback, 'Erro ao salvar o play player.'
+            redirect_to match_path(@match), alert: 'Erro ao salvar o play player. 🔴'
+          end
         end
 
         @play.dupla2.each do |pp|
@@ -84,8 +88,13 @@ class PlaysController < ApplicationController
           pp.games_won = games_won_dupla2
           pp.games_lost = games_won_dupla1
           update_player_stats(pp, games_won_dupla2, games_won_dupla1, old_games_won, old_games_lost)
-          pp.player.save!
-          pp.save!
+
+          if pp.player.save!
+            pp.save!
+          else
+            raise ActiveRecord::Rollback, 'Erro ao salvar o play player.'
+            redirect_to match_path(@match), alert: 'Erro ao salvar o play player. 🔴'
+          end
         end
       end
 
@@ -96,6 +105,7 @@ class PlaysController < ApplicationController
         end
         redirect_to match_path(@match), notice: 'Play atualizado com sucesso. 🟢'
       else
+        redirect_to match_path(@match), alert: 'Erro ao atualizar o play. 🔴'
         raise ActiveRecord::Rollback, 'Play não foi atualizado com sucesso.'
       end
     end
@@ -160,18 +170,15 @@ class PlaysController < ApplicationController
   def update_player_stats(play_player, games_won, games_lost, old_games_won = 0, old_games_lost = 0)
     player = play_player.player
 
-    # Atualiza as estatísticas do jogador com base nos games ganhos e perdidos
     player.games_won += (games_won - old_games_won)
     player.games_lost += (games_lost - old_games_lost)
 
-    # Atualiza sets ganhos ou perdidos
     if games_won >= 6 && old_games_won < 6
       player.sets_won += 1
     elsif games_won < 6 && old_games_won >= 6
       player.sets_won -= 1
     end
 
-    # Salva o estado atualizado do jogador
     Rails.logger.info "Atualizando Player #{player.id} - Games Won: #{player.games_won}, Games Lost: #{player.games_lost}, Sets Won: #{player.sets_won}"
   end
 end

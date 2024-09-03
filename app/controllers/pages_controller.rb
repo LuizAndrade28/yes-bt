@@ -8,11 +8,6 @@ class PagesController < ApplicationController
     # Outras variáveis
     @matches = Match.all
 
-    # @female_players = @female_players.order(games_won: :desc)
-    # @plays = Play.all
-    # @play_players = PlayPlayer.all
-    # @play = Play.new
-
     # respond_to do |format|
     #   format.html
     #   format.turbo_stream

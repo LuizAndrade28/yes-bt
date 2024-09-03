@@ -4,7 +4,9 @@ class Player < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { message: 'já está cadastrado' }
   validates :gender, presence: true
-  # validates :games_won, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :games_won, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :games_lost, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :sets_won, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   def games_balance
     games_won - games_lost
