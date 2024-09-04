@@ -1,0 +1,21 @@
+<%= link_to 'Criar nova partida', new_match_path %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @matches.each do |match| %>
+      <tr>
+        <td><%= match.match_date %>, <%= match.day %> (<%= match.plays_count %>)</td>
+        <td>
+        <%= link_to 'Ver partida', match_path(match) %>
+        <%= link_to 'Editar', edit_match_path(match) %>
+        <%= link_to 'Excluir', match_path(match), data: { turbo_method: :delete, turbo_confirm: "Are you sure? This action is irreversible." } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

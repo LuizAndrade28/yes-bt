@@ -1,0 +1,21 @@
+<%= link_to 'Criar novo jogador', new_player_path %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Sexo</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @players&.each do |player| %>
+      <tr>
+        <td><%= player.name %></td>
+        <td><%= player.gender %></td>
+        <td><%= link_to 'Editar', edit_player_path(player) %>
+        <%= link_to 'Excluir', player_path(player), data: { turbo_method: :delete, turbo_confirm: "Are you sure? This action is irreversible." } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

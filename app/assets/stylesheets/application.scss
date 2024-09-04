@@ -10,3 +10,43 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+/* Initial config */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0px;
+  padding: 0px;
+  color: black !important;
+}
+
+html {
+  min-height: 100vh;
+  flex: 1;
+  scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    // font-size: 1.4rem;
+
+    background-color: white;
+
+    min-height: 100vh;
+    height: fit-content;
+}
+
+.body-content {
+  min-height: 90vh;
+}
+
+// h1, h2, h3, h4, h5, h6 {
+//   font-family: "Exo 2", sans-serif;
+//   font-optical-sizing: auto;
+//   font-weight: bold;
+//   font-style: italic;
+// }

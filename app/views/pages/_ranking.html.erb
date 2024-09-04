@@ -1,0 +1,26 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Posição</th>
+      <th>Nome</th>
+      <th>Pontos</th>
+      <th>Confrontos</th>
+      <th>Games Ganhos</th>
+      <th>Games Perdidos</th>
+      <th>Saldo Games</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @players_ranking&.each_with_index do |player, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= player.name %></td>
+        <td><%= player.sets_won %></td>
+        <td><%= player.matches_count %></td>
+        <td><%= player.games_won %></td>
+        <td><%= player.games_lost %></td>
+        <td><%= player.games_balance %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

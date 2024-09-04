@@ -1,1 +1,26 @@
 // Specific CSS for your home-page
+#menu-options {
+  display: flex;
+}
+
+#menu-options h4 {
+  margin-right: 4px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 6px;
+  margin-bottom: 0px;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: #9cdd19;
+  }
+}
+
+#menu-options h4:last-child {
+  margin-right: 0px;
+}
+
+.default-option {
+  display: none;
+}
