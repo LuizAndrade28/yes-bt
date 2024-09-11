@@ -1,41 +1,45 @@
-<%= simple_form_for [@match, @play] do |f| %>
-  <h3>Jogadores</h3>
+<section class="section-card-ybt">
+  <div class="form-card">
+    <%= simple_form_for [@match, @play] do |f| %>
+      <div>
+        <%= f.input :games_won_dupla1, as: :numeric, label: "Games Ganhos - Dupla 1", input_html: { min: 0, max: 6, oninput: "this.value = this.value.slice(0, 1)", pattern: "[0-6]*", class: "rounded-3" } %>
+      </div>
 
-  <div>
-    <%= f.input :games_won_dupla1, as: :numeric, label: "Games Ganhos - Dupla 1", input_html: { min: 0, max: 6, oninput: "this.value = this.value.slice(0, 1)", pattern: "[0-6]*"} %>
-  </div>
+      <div>
+        <%= f.input :games_won_dupla2, as: :numeric, label: "Games Ganhos - Dupla 2", input_html: { min: 0, max: 6, oninput: "this.value = this.value.slice(0, 1)", pattern: "[0-6]*", class: "rounded-3" } %>
+      </div>
 
-  <div>
-    <%= f.input :games_won_dupla2, as: :numeric, label: "Games Ganhos - Dupla 2", input_html: { min: 0, max: 6, oninput: "this.value = this.value.slice(0, 1)", pattern: "[0-6]*"} %>
-  </div>
+      <% if action_name != 'edit' %>
+        <%= f.fields_for :play_players do |play_player_fields| %>
+          <div class="player-fields">
+            <div>
+              <%= play_player_fields.input :player_id, collection: Player.all, label_method: :name, value_method: :id, label: "Jogador", prompt: "Selecione um Jogador", input_html: { class: "rounded-3" } %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <% play_players_dupla1 = @play.play_players.first(2) %>
+        <% play_players_dupla2 = @play.play_players.last(2) %>
 
-  <% if action_name != 'edit' %>
-    <%= f.fields_for :play_players do |play_player_fields| %>
-      <div class="player-fields">
-        <div>
-          <%= play_player_fields.input :player_id, collection: Player.all, label_method: :name, value_method: :id, label: "Jogador", prompt: "Selecione um Jogador" %>
+        <div class="player-fields ms-1">
+          <div>
+            <strong>Dupla 1:</strong>
+            <%= play_players_dupla1.map { |pp| pp.player.name }.join(', ') %>
+          </div>
         </div>
+
+        <div class="player-fields mb-2 ms-1">
+          <div>
+            <strong>Dupla 2:</strong>
+            <%= play_players_dupla2.map { |pp| pp.player.name }.join(', ') %>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="form-btns">
+        <%= f.submit "Salvar Play", class: "form-btns-inputs me-2" %>
+        <%= link_to "Voltar", match_path(@match) %>
       </div>
     <% end %>
-  <% else %>
-    <% play_players_dupla1 = @play.play_players.first(2) %>
-    <% play_players_dupla2 = @play.play_players.last(2) %>
-
-    <div class="player-fields">
-      <div>
-        <strong>Jogadores - Dupla 1:</strong>
-        <%= play_players_dupla1.map { |pp| pp.player.name }.join(', ') %>
-      </div>
-    </div>
-
-    <div class="player-fields">
-      <div>
-        <strong>Jogadores - Dupla 2:</strong>
-        <%= play_players_dupla2.map { |pp| pp.player.name }.join(', ') %>
-      </div>
-    </div>
-  <% end %>
-
-  <%= f.submit "Salvar Play" %>
-  <%= link_to "Back", match_path(@match), class: "todo-btns__btn shadow-sm" %>
-<% end %>
+  </div>
+</section>

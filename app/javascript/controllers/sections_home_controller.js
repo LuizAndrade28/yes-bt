@@ -14,6 +14,15 @@ export default class extends Controller {
       opt.classList.add('d-none');
     });
 
+    // Change color selected
+    const allMenuOptions = document.querySelectorAll('.m-op');
+    allMenuOptions.forEach((opt) => {
+      opt.style.backgroundColor = '#f4f4f4';
+      opt.style.color = '#0E0000';
+    });
+    element.target.style.backgroundColor = '#e09942';
+    element.target.style.color = '#f4f4f4';
+
     // Show the selected option
     const swap = document.querySelector(`#option-${element.target.dataset.value}`);
     swap.classList.remove('d-none');

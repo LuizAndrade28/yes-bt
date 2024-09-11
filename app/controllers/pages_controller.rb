@@ -13,4 +13,21 @@ class PagesController < ApplicationController
     #   format.turbo_stream
     # end
   end
+
+  def delete_all_data
+    # Deletando todos os jogadores
+    Player.delete_all
+
+    # Deletando todos os jogos
+    Match.delete_all
+
+    # Deletando todos os jogos
+    Play.delete_all
+
+    # Deletando todos os jogos
+    PlayPlayer.delete_all
+
+    # Redirecionando para a página inicial
+    redirect_to root_path
+  end
 end

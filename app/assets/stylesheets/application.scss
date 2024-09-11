@@ -21,7 +21,8 @@
 p, h1, h2, h3, h4, h5, h6 {
   margin: 0px;
   padding: 0px;
-  color: black !important;
+  // color: black !important;
+  font-weight: bolder;
 }
 
 html {
@@ -31,13 +32,20 @@ html {
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    // font-size: 1.4rem;
+  font-family: 'Roboto', sans-serif;
+  // font-size: 1.4rem;
 
-    background-color: white;
+  background-color: rgba(198, 184, 134, 0.792);
 
-    min-height: 100vh;
-    height: fit-content;
+  min-height: 100vh;
+  height: fit-content;
+  background: linear-gradient(to right, #f0f0f0, #e5a032);
+
+  background-image: url("op1.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
 }
 
 .body-content {
