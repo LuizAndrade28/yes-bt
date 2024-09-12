@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+
   def home
     # Inicializando variáveis de jogadores e Ordenando os jogadores
     @players = Player.all.order(name: :asc)
@@ -29,5 +30,8 @@ class PagesController < ApplicationController
 
     # Redirecionando para a página inicial
     redirect_to root_path
+  end
+
+  def export_data
   end
 end
