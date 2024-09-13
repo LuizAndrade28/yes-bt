@@ -5,13 +5,13 @@ class PagesController < ApplicationController
     @female_players = Player.where(gender: 'Feminino').order(games_won: :desc)
     @players_ranking = Player.all.order(games_won: :desc)
 
-    # Outras variáveis
-    @matches = Match.all
 
-    # respond_to do |format|
-    #   format.html
-    #   format.turbo_stream
-    # end
+    @matches = Match.page(params[:page]).per(6).order(match_date: :desc)
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def delete_all_data

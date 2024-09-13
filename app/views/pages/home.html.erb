@@ -29,8 +29,10 @@
     </div>
 
     <%# Partidas %>
-    <div class="d-none option" id="option-3">
-      <%= render 'matches' %>
+    <div class="d-none option" id="option-3" data-turbo-frame="matches">
+      <%= turbo_frame_tag "matches" do %>
+        <%= render 'matches' %>
+      <% end %>
     </div>
 
     <%# Jogadores %>

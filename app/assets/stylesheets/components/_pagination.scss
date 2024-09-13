@@ -1,0 +1,34 @@
+// app/assets/stylesheets/pagination.scss
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  font-size: 2.4vmin;
+}
+
+.last a {
+  color: #082243 !important;
+  text-decoration: none !important;
+  padding-right: 1.5px;
+  padding-left: 1.5px;
+}
+
+.first a {
+  color: #082243 !important;
+  text-decoration: none !important;
+  padding-right: 1.5px;
+  padding-left: 1.5px;
+}
+
+.page a {
+  color: #082243;
+  padding-right: 1px;
+  padding-left: 1px;
+  text-decoration: none !important;
+}
+
+.page.current {
+  padding-right: 1px !important;
+  padding-left: 1px !important;
+  color: #08224354 !important;
+}
