@@ -1,17 +1,19 @@
-<div class="form-card">
+<section class="section-card-ybt">
   <%= simple_form_for(@match) do |f| %>
-    <%= f.error_notification %>
-    <% if f.object.errors[:base].present? %>
-      <%= f.error_notification message: f.object.errors[:base].to_sentence %>
-    <% end %>
+    <div class="form-card">
+      <%= f.error_notification %>
+      <% if f.object.errors[:base].present? %>
+        <%= f.error_notification message: f.object.errors[:base].to_sentence %>
+      <% end %>
 
-    <div>
-      <%= f.input :match_date, label: 'Data', label_html: {class: "form-card__label"}, input_html: {class: "form-in__inpsel", maxlength: "50"} %>
-    </div>
+      <div>
+        <%= f.input :match_date, label: 'Data', input_html: {class: "rounded-3"} %>
+      </div>
 
-    <div class="todo-btns">
-        <%= f.submit "Salvar", class: "todo-btns__btn shadow-sm", name: "confirmar" %>
-        <%= link_to "Voltar", root_path, class: "todo-btns__btn shadow-sm" %>
+      <section class="form-btns">
+          <%= f.submit "Salvar", class: "form-btns-inputs me-2", name: "confirmar" %>
+          <%= link_to "Voltar", root_path %>
+      </div>
     </div>
   <% end %>
-</div>
+</section>

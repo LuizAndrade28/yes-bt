@@ -10,3 +10,60 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+/* Initial config */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  margin: 0px;
+  padding: 0px;
+  color: #082243;
+  font-weight: bolder;
+}
+
+html {
+  min-height: 100vh;
+  // flex: 1;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  // font-size: 1.4rem;
+
+  min-height: 100vh;
+  height: auto;
+  overflow: hidden !important;
+  // padding-top: auto; /* Para colar em um elemento que está forçando para fora do body */
+
+  background-color: rgba(198, 184, 134, 0.792);
+  background: linear-gradient(to right, #f0f0f0, #e5a032);
+
+  background-image: url("op1.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+// Clearfix no body
+// body::after {
+//   content: "";
+//   display: table;
+//   clear: both;
+// }
+
+.body-content {
+  min-height: 90vh;
+}
+
+// h1, h2, h3, h4, h5, h6 {
+//   font-family: "Exo 2", sans-serif;
+//   font-optical-sizing: auto;
+//   font-weight: bold;
+//   font-style: italic;
+// }

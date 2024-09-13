@@ -1,1 +1,120 @@
 // Specific CSS for your home-page
+#menu-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#menu-options h4 {
+  margin-right: 10px;
+  flex-grow: 1;
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 6px;
+  margin-bottom: 0px;
+  text-align: center;
+  background-color: #f4f4f4;
+  opacity: 0.9;
+
+  cursor: pointer;
+}
+
+#menu-options h4:hover {
+  background-color: #e09942;
+}
+
+
+
+#menu-options h4:first-child {
+  background-color: #e09942;
+  color: white;
+}
+
+#menu-options h4:last-child {
+  margin-right: 0px;
+}
+
+table {
+  margin-top: 10px;
+  opacity: 0.9;
+}
+
+table, td, th {
+  border: 1px solid black;
+  padding: 1rem;
+  text-align: center;
+}
+
+.section-card-ybt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.form-card {
+  width: 40vw;
+  background-color: white;
+  opacity: 0.9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.form-btns {
+  display: flex;
+}
+
+.form-btns a {
+  flex-grow: 1 !important;
+  text-align: center !important;
+  padding: 10px !important;
+  border-radius: 5px !important;
+  background-color: #e09942 !important;
+  color: white !important;
+  text-decoration: none !important;
+  border: none !important;
+}
+
+.form-btns-inputs {
+  flex-grow: 1 !important;
+  text-align: center !important;
+  padding: 10px !important;
+  border-radius: 5px !important;
+  background-color: #e09942 !important;
+  color: white !important;
+  text-decoration: none !important;
+  border: none !important;
+}
+
+.opt-color {
+  color: #e09942 !important;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.btn-add {
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: #e09942;
+  color: white;
+  opacity: 0.9;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+input:focus {
+  outline: none !important;
+  background-color: #e099427e !important;
+  color: white !important;
+}
+
+select:focus {
+  outline: none !important;
+  background-color: #e099427e !important;
+  color: white !important;
+}
