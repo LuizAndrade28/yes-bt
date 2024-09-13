@@ -330,6 +330,7 @@ DEPENDENCIES
   bootsnap
   bootstrap (~> 5.2)
   capybara
+  caxlsx
   caxlsx_rails
   debug
   dotenv-rails

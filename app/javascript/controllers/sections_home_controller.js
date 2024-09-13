@@ -18,7 +18,7 @@ export default class extends Controller {
     const allMenuOptions = document.querySelectorAll('.m-op');
     allMenuOptions.forEach((opt) => {
       opt.style.backgroundColor = '#f4f4f4';
-      opt.style.color = '#0E0000';
+      opt.style.color = '#082243';
     });
     element.target.style.backgroundColor = '#e09942';
     element.target.style.color = '#f4f4f4';

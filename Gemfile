@@ -42,7 +42,8 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 
 # gem "nokogiri"
-gem "caxlsx_rails"
+gem 'caxlsx'
+gem 'caxlsx_rails'
 gem "rubyzip"
 
 gem "kaminari"

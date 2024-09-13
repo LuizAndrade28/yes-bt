@@ -12,8 +12,8 @@
         <tr>
           <td><%= match.match_date_br %>, <%= match.day %> (<%= match.plays_count %>)</td>
           <td>
-          <%= link_to 'Ver partida', match_path(match), class: "opt-color" %>
-          / <%= link_to 'Editar', edit_match_path(match), class: "opt-color" %>
+          <%= link_to 'Ver partida', match_path(match), class: "opt-color", data: { turbo: false } %>
+          / <%= link_to 'Editar', edit_match_path(match), class: "opt-color", data: { turbo: false } %>
           / <%= link_to 'Excluir', match_path(match), class: "opt-color", data: { turbo_method: :delete, turbo_confirm: "Are you sure? This action is irreversible." } %>
           </td>
         </tr>

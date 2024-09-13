@@ -46,7 +46,7 @@ class PagesController < ApplicationController
     # end
 
     # send_data csv_data, filename: "data-#{Date.today}.csv"
-    # respond_to do |format|
+
     @players_ranking = Player.all.order(games_won: :desc)
     @female_players = Player.where(gender: 'Feminino').order(games_won: :desc)
     @match_last_date_year = Match.last.match_date.year
@@ -71,11 +71,17 @@ class PagesController < ApplicationController
     end
 
     # Enviar o arquivo para download
-    temp = Tempfile.new("data.xlsx")
+    # temp = Tempfile.new("data.xlsx")
+    # p.serialize(temp.path)
+    # send_file temp.path, filename: "data-#{@match_last_date_year}-#{Date.today}.xlsx"
+    # temp.close
+
+    # Enviar o arquivo para download
+    temp = Tempfile.new(["data", ".xlsx"], binmode: true)
     p.serialize(temp.path)
-    send_file temp.path, filename: "data-#{@match_last_date_year}-#{Date.today}.xlsx"
+    send_file temp.path, filename: "data-#{@match_last_date_year}-#{Date.today}.xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+    # Fechar o arquivo temporário
     temp.close
-    # temp.unlink
-    # end
   end
 end
