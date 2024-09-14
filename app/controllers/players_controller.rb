@@ -1,6 +1,10 @@
 class PlayersController < ApplicationController
   before_action :set_player, only: %i[edit update]
 
+  def index
+    @players = Player.page(params[:page]).per(8).order(name: :asc)
+  end
+
   def new
     @player = Player.new
   end
@@ -14,7 +18,7 @@ class PlayersController < ApplicationController
 
     respond_to do |format|
       if params[:confirm].present? && @player.save!
-        format.html { redirect_to root_path, notice: 'Jogador criado com sucesso. 🟢' }
+        format.html { redirect_to players_path, notice: 'Jogador criado com sucesso. 🟢' }
       elsif params[:confirm_and_create].present? && @player.save!
         format.html { redirect_to new_player_path, notice: 'Jogador criado com sucesso. 🟢' }
       else
@@ -28,7 +32,7 @@ class PlayersController < ApplicationController
 
   def update
     if @player.update!(player_params)
-      redirect_to root_path, notice: 'Jogador atualizado com sucesso. 🟢'
+      redirect_to players_path, notice: 'Jogador atualizado com sucesso. 🟢'
     else
       render :edit, notice: 'Jogador não foi atualizado com sucesso. 🔴'
     end
@@ -72,14 +76,14 @@ class PlayersController < ApplicationController
       end
 
       if @player.destroy!
-        redirect_to root_path, notice: 'Jogador deletado com sucesso. 🟢'
+        redirect_to players_path, notice: 'Jogador deletado com sucesso. 🟢'
       else
-        redirect_to root_path, notice: 'Jogador não foi deletado com sucesso. 🔴'
+        redirect_to players_path, notice: 'Jogador não foi deletado com sucesso. 🔴'
       end
     end
   rescue => e
     Rails.logger.error "Erro ao deletar o player: #{e.message}"
-    redirect_to root_path, notice: "Erro ao deletar o player: #{e.message}"
+    redirect_to players_path, notice: "Erro ao deletar o player: #{e.message}"
   end
 
   private

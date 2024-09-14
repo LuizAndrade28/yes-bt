@@ -1,39 +1,25 @@
-<section class="d-flex justify-content-center mt-5 align-items-center">
-  <h1>Beach Tennis Itanhangá - Ranking</h1>
-</section>
-
-<div class="d-flex justify-content-between">
-  <%= link_to "Deletar e recomeçar", delete_all_data_path, data: { turbo_method: :delete, turbo_confirm: "Deletar tudo e começar do zero. Você tem certeza?" }, class: "opt-color me-3" %>
-  <%= link_to "Exportar dados", export_data_path, class: "opt-color" %>
-</div>
-
-<hr>
 <section id="prime" data-controller="sections-home">
 
-  <div id="menu-options">
-    <h4 class="m-op" data-value="1" data-action="click->sections-home#show">Ranking Geral</h4>
-    <h4 class="m-op" data-value="2" data-action="click->sections-home#show">Ranking Feminino</h4>
-    <h4 class="m-op" data-value="3" data-action="click->sections-home#show">Partidas</h4>
-    <h4 class="m-op" data-value="4" data-action="click->sections-home#show">Jogadores</h4>
-  </div>
+  <%= render 'shared/menu_options' %>
 
   <div id="options">
     <%# Ranking %>
-    <div class="option table-responsive" id="option-1">
-      <%= render 'ranking' %>
+    <div>
+      <div class="option table-responsive" id="option-1">
+        <%= render 'ranking' %>
+      </div>
+
+      <%# Ranking Feminino %>
+      <div class="d-none table-responsive option" id="option-2">
+        <%= render 'female_ranking' %>
+      </div>
     </div>
 
-    <%# Ranking Feminino %>
-    <div class="d-none table-responsive option" id="option-2">
-      <%= render 'female_ranking' %>
-    </div>
 
     <%# Partidas %>
-    <div class="d-none option" id="option-3" data-turbo-frame="matches">
-      <%= turbo_frame_tag "matches" do %>
-        <%= render 'matches' %>
-      <% end %>
-    </div>
+    <%# <div class="d-none option" id="option-3"> %>
+      <%# render 'matches' %>
+    <%# </div> %>
 
     <%# Jogadores %>
     <div class ="d-none option" id="option-4">

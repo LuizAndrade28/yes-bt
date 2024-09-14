@@ -1,0 +1,36 @@
+<%= render 'shared/menu_options' %>
+
+<section id="prime" data-controller="sections-home">
+
+  <div id="options">
+    <%# Partidas %>
+    <%= link_to 'Criar nova partida', new_match_path, class:"btn btn-warning rounded-4 text-white" %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Opções</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @matches.each do |match| %>
+          <tr>
+            <td><%= match.match_date_br %>, <%= match.day %> (<%= match.plays_count %>)</td>
+            <td>
+            <%= link_to 'Ver partida', match_path(match), class: "opt-color" %>
+            / <%= link_to 'Editar', edit_match_path(match), class: "opt-color" %>
+            / <%= link_to 'Excluir', match_path(match), class: "opt-color", data: { turbo_method: :delete, turbo_confirm: "Are you sure? This action is irreversible." } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</section>
+
+<% if @matches.count >= 8 %>
+  <div class="pagination-container d-flex justify-content-end mt-2 mb-2">
+    <%= paginate @matches, theme: 'default', remote: true %>
+  </div>
+<% end %>
