@@ -31,6 +31,6 @@
 
 <% if @matches.count >= 8 %>
   <div class="pagination-container d-flex justify-content-end mt-2 mb-2">
-    <%= paginate @matches, theme: 'default', remote: true %>
+    <%= paginate @matches, theme: 'default', window: 2 %>
   </div>
 <% end %>

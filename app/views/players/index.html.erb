@@ -1,6 +1,6 @@
 <%= render 'shared/menu_options' %>
 
-<section id="prime" data-controller="sections-home">
+<section id="prime" class="table-players" data-controller="sections-home">
 
   <div id="options">
     <%# Partidas %>
@@ -31,5 +31,5 @@
 </section>
 
 <div class="pagination-container d-flex justify-content-end mt-2 mb-2">
-  <%= paginate @players, theme: 'default', remote: true %>
+  <%= paginate @players, theme: 'default', window: 2 %>
 </div>

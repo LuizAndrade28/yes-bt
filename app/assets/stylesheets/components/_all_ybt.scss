@@ -117,6 +117,14 @@ table, td, th {
   text-align: center;
 }
 
+td {
+  width: 14%;
+}
+
+.table-players td {
+  width: 33%;
+}
+
 .section-card-ybt {
   display: flex;
   justify-content: center;
