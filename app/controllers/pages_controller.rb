@@ -1,17 +1,8 @@
 class PagesController < ApplicationController
   def home
     # Inicializando variáveis de jogadores e Ordenando os jogadores
-    @players = Player.all.order(name: :asc)
     @female_players = Player.where(gender: 'Feminino').order(games_won: :desc)
     @players_ranking = Player.all.order(games_won: :desc)
-
-
-    @matches = Match.page(params[:page]).per(6).order(match_date: :desc)
-
-    respond_to do |format|
-      format.html
-      format.turbo_stream
-    end
   end
 
   def delete_all_data
@@ -83,5 +74,9 @@ class PagesController < ApplicationController
 
     # Fechar o arquivo temporário
     temp.close
+
+    if temp.close == true
+      temp.unlink
+    end
   end
 end

@@ -2,7 +2,7 @@ class MatchesController < ApplicationController
   before_action :set_match, only: %i[edit update destroy]
 
   def index
-    @matches = Match.all
+    @matches = Match.page(params[:page]).per(8).order(match_date: :desc)
   end
 
   def show
@@ -58,7 +58,7 @@ class MatchesController < ApplicationController
       end
 
       if @match.destroy!
-        redirect_to root_path, notice: "Partida excluída com sucesso. 🟢"
+        redirect_to matches_path, notice: "Partida excluída com sucesso. 🟢"
       else
         redirect_to match_path(@match), notice: "Partida não foi deletada com sucesso. 🔴"
       end

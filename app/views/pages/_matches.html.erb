@@ -1,5 +1,5 @@
-<div id="matches-container">
-  <%= link_to 'Criar nova partida', new_match_path, class:"btn btn-warning rounded-4 text-white", data: { turbo: false } %>
+
+  <%= link_to 'Criar nova partida', new_match_path, class:"btn btn-warning rounded-4 text-white" %>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -12,8 +12,8 @@
         <tr>
           <td><%= match.match_date_br %>, <%= match.day %> (<%= match.plays_count %>)</td>
           <td>
-          <%= link_to 'Ver partida', match_path(match), class: "opt-color", data: { turbo: false } %>
-          / <%= link_to 'Editar', edit_match_path(match), class: "opt-color", data: { turbo: false } %>
+          <%= link_to 'Ver partida', match_path(match), class: "opt-color" %>
+          / <%= link_to 'Editar', edit_match_path(match), class: "opt-color" %>
           / <%= link_to 'Excluir', match_path(match), class: "opt-color", data: { turbo_method: :delete, turbo_confirm: "Are you sure? This action is irreversible." } %>
           </td>
         </tr>
@@ -24,4 +24,3 @@
   <div class="pagination-container d-flex justify-content-end mt-2 mb-2">
     <%= paginate @matches, theme: 'default', remote: true %>
   </div>
-</div>
