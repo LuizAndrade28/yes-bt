@@ -74,5 +74,9 @@ class PagesController < ApplicationController
 
     # Fechar o arquivo temporário
     temp.close
+
+    if temp.close == true
+      temp.unlink
+    end
   end
 end
