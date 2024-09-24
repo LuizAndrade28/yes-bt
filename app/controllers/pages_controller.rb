@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   def home
     # Inicializando variáveis de jogadores e Ordenando os jogadores
     @female_players = Player.where(gender: 'Feminino').order(sets_won: :desc)
-    @players_ranking = Player.all.order(sets_won: :desc, games_balance: :desc)
+    @players_ranking = Player.all.order(sets_won: :desc, matches_count: :desc, games_balance: :desc)
   end
 
   def delete_all_data

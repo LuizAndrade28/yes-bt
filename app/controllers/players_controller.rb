@@ -52,19 +52,21 @@ class PlayersController < ApplicationController
           match_plays_count = Match.find(play.match_id).plays.count
 
           playplayers.each do |playplayer|
-            player_to_uptade = Player.find(playplayer.player_id)
+            player_to_update = Player.find(playplayer.player_id)
             play_games_won = playplayer.games_won
             play_games_lost = playplayer.games_lost
 
-            player_to_uptade.games_won -= play_games_won
-            if player_to_uptade.games_lost < 0
-              player_to_uptade.games_lost += play_games_lost
+            player_to_update.games_won -= play_games_won
+            if player_to_update.games_lost < 0
+              player_to_update.games_lost += play_games_lost
             else
-              player_to_uptade.games_lost -= play_games_lost
+              player_to_update.games_lost -= play_games_lost
             end
-            player_to_uptade.sets_won -= 1 if play_games_won == 6
+            player_to_update.sets_won -= 1 if play_games_won == 6
+            player_to_update.matches_count -= 1 if match_plays_count == 1
+            player_to_update.games_balance = (player_to_update.games_won - player_to_update.games_lost)
 
-              if player_to_uptade.save!
+              if player_to_update.save!
                 playplayer.destroy!
               else
                 raise ActiveRecord::Rollback

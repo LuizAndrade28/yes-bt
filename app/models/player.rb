@@ -1,7 +1,7 @@
 class Player < ApplicationRecord
   has_many :play_players, dependent: :destroy
-  has_many :plays, through: :play_players, dependent: :destroy
-  has_many :matches, through: :plays, dependent: :destroy
+  has_many :plays, through: :play_players
+  has_many :matches, through: :plays
 
   validates :name, presence: true, uniqueness: { message: 'já está cadastrado' }
   validates :gender, presence: true
