@@ -18,7 +18,11 @@
     <% end %>
   </div>
 
-  <%= link_to "Exportar dados", export_data_path, class: "opt-color" %>
+  <% if Match.count >= 1 %>
+    <%= link_to "Exportar dados", export_data_path, class: "opt-color" %>
+  <% else %>
+    <p class="text-decoration-line-through text-warning">Exportar dados</p>
+  <% end %>
 </div>
 
 <hr>

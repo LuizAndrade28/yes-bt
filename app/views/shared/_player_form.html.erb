@@ -11,8 +11,10 @@
         <%= f.input :gender, label: 'Sexo', collection: [ "Feminino", "Masculino" ], input_html: { class: "rounded-3" } %>
         <% if action_name == "edit" %>
           <%= f.input :sets_won, label: 'Pontos', input_html: {class: "rounded-3", maxlength: "50"} %>
+          <%= f.input :matches_count, label: 'Qtd. Partidas', input_html: {class: "rounded-3", maxlength: "50"} %>
           <%= f.input :games_won, label: 'Games Ganhos', input_html: {class: "rounded-3", maxlength: "50"} %>
           <%= f.input :games_lost, label: 'Games Perdidos', input_html: {class: "rounded-3", maxlength: "50"} %>
+          <%= f.input :games_balance, label: 'Saldo Games', input_html: {class: "rounded-3", maxlength: "50"} %>
         <% end %>
       </div>
 

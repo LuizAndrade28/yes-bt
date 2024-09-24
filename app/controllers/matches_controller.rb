@@ -47,6 +47,12 @@ class MatchesController < ApplicationController
             player.games_lost -= play_player.games_lost
           end
           player.sets_won -= 1 if play_player.games_won == 6
+          player.games_balance = (player.games_won - player.games_lost)
+
+          if Play.where(match_id: play_player.play.match_id).count == 1
+            player.matches_count -= 1
+          end
+
           if player.save!
             play_player.destroy!
           else

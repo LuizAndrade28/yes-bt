@@ -15,6 +15,8 @@ class PlayersController < ApplicationController
     @player.games_won = 0
     @player.games_lost = 0
     @player.sets_won = 0
+    @player.matches_count = 0
+    @player.games_balance = 0
 
     respond_to do |format|
       if params[:confirm].present? && @player.save!
@@ -89,7 +91,7 @@ class PlayersController < ApplicationController
   private
 
   def player_params
-    params.require(:player).permit(:name, :gender, :games_won, :games_lost, :sets_won)
+    params.require(:player).permit(:name, :gender, :games_won, :games_lost, :sets_won, :games_balance, :matches_count)
   end
 
   def set_player

@@ -33,6 +33,10 @@ class PlaysController < ApplicationController
           pp.player.games_won += games_won_dupla1
           pp.player.games_lost += games_won_dupla2
           pp.player.sets_won += 1 if games_won_dupla1 >= 6
+          if Play.where(match_id: @match.id).count == 0
+            pp.player.matches_count += 1
+          end
+          pp.player.games_balance = (pp.player.games_won - pp.player.games_lost)
           pp.player.save!
         end
 
@@ -42,12 +46,16 @@ class PlaysController < ApplicationController
           pp.player.games_won += games_won_dupla2
           pp.player.games_lost += games_won_dupla1
           pp.player.sets_won += 1 if games_won_dupla2 >= 6
+          if Play.where(match_id: @match.id).count == 0
+            pp.player.matches_count += 1
+          end
+          pp.player.games_balance = (pp.player.games_won - pp.player.games_lost)
           pp.player.save!
         end
       end
 
       if @play.save!
-        redirect_to match_path(@match), notice: 'Play criado com sucesso. 🟢'
+        redirect_to matches_path, notice: 'Play criado com sucesso. 🟢'
       else
         raise ActiveRecord::Rollback, 'Play não foi criado com sucesso.'
       end
@@ -127,6 +135,8 @@ class PlaysController < ApplicationController
           player.games_lost -= play_player.games_lost
         end
         player.sets_won -= 1 if play_player.games_won >= 6
+        player.matches_count -= 1
+        player.games_balance = player.games_won - player.games_lost
 
         if player.save!
           play_player.destroy!
@@ -172,6 +182,14 @@ class PlaysController < ApplicationController
 
     player.games_won += (games_won - old_games_won)
     player.games_lost += (games_lost - old_games_lost)
+
+    if player.games_balance > 0
+      player.games_balance -= (old_games_won - old_games_lost)
+    else
+      player.games_balance += (old_games_won - old_games_lost)
+    end
+
+    player.games_balance += (player.games_won - player.games_lost)
 
     if games_won >= 6 && old_games_won < 6
       player.sets_won += 1
