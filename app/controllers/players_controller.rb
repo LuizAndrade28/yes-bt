@@ -51,7 +51,7 @@ class PlayersController < ApplicationController
           playplayers = PlayPlayer.where(play_id: playid).where.not(player_id: @player.id)
           match_plays_count = Match.find(play.match_id).plays.count
 
-          playplayers.each do |playplayer|
+          playplayers.each_with_index do |playplayer|
             player_to_update = Player.find(playplayer.player_id)
             play_games_won = playplayer.games_won
             play_games_lost = playplayer.games_lost
@@ -62,21 +62,24 @@ class PlayersController < ApplicationController
             else
               player_to_update.games_lost -= play_games_lost
             end
-            player_to_update.sets_won -= 1 if play_games_won == 6
+
+            player_to_update.sets_won -= 1 if playplayer.winner == true
             player_to_update.matches_count -= 1 if match_plays_count == 1
-            player_to_update.games_balance = (player_to_update.games_won - player_to_update.games_lost)
+            player_to_update.games_balance = player_to_update.games_won - player_to_update.games_lost
 
-              if player_to_update.save!
-                playplayer.destroy!
-              else
-                raise ActiveRecord::Rollback
-              end
+
+            if player_to_update.save!
+              playplayer.destroy!
+            else
+              raise ActiveRecord::Rollback
+            end
           end
 
-          if i + 1 == match_plays_count
-            Match.find(play.match_id).destroy!
-          end
+
+          play.destroy!
         end
+
+        match.destroy!
       end
 
       if @player.destroy!
