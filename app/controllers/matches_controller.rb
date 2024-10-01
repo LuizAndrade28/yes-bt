@@ -46,7 +46,14 @@ class MatchesController < ApplicationController
           else
             player.games_lost -= play_player.games_lost
           end
-          player.sets_won -= 1 if play_player.games_won == 6
+          player.sets_won -= 1 if play_player.winner == true
+
+          player.games_balance = (player.games_won - player.games_lost)
+
+          if Play.where(match_id: play_player.play.match_id).count == 1
+            player.matches_count -= 1
+          end
+
           if player.save!
             play_player.destroy!
           else
@@ -60,7 +67,7 @@ class MatchesController < ApplicationController
       if @match.destroy!
         redirect_to matches_path, notice: "Partida excluída com sucesso. 🟢"
       else
-        redirect_to match_path(@match), notice: "Partida não foi deletada com sucesso. 🔴"
+        redirect_to matches_path, notice: "Partida não foi deletada com sucesso. 🔴"
       end
     end
   rescue => e

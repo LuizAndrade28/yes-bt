@@ -15,6 +15,8 @@ class PlayersController < ApplicationController
     @player.games_won = 0
     @player.games_lost = 0
     @player.sets_won = 0
+    @player.matches_count = 0
+    @player.games_balance = 0
 
     respond_to do |format|
       if params[:confirm].present? && @player.save!
@@ -49,30 +51,35 @@ class PlayersController < ApplicationController
           playplayers = PlayPlayer.where(play_id: playid).where.not(player_id: @player.id)
           match_plays_count = Match.find(play.match_id).plays.count
 
-          playplayers.each do |playplayer|
-            player_to_uptade = Player.find(playplayer.player_id)
+          playplayers.each_with_index do |playplayer|
+            player_to_update = Player.find(playplayer.player_id)
             play_games_won = playplayer.games_won
             play_games_lost = playplayer.games_lost
 
-            player_to_uptade.games_won -= play_games_won
-            if player_to_uptade.games_lost < 0
-              player_to_uptade.games_lost += play_games_lost
+            player_to_update.games_won -= play_games_won
+            if player_to_update.games_lost < 0
+              player_to_update.games_lost += play_games_lost
             else
-              player_to_uptade.games_lost -= play_games_lost
+              player_to_update.games_lost -= play_games_lost
             end
-            player_to_uptade.sets_won -= 1 if play_games_won == 6
 
-              if player_to_uptade.save!
-                playplayer.destroy!
-              else
-                raise ActiveRecord::Rollback
-              end
+            player_to_update.sets_won -= 1 if playplayer.winner == true
+            player_to_update.matches_count -= 1 if match_plays_count == 1
+            player_to_update.games_balance = player_to_update.games_won - player_to_update.games_lost
+
+
+            if player_to_update.save!
+              playplayer.destroy!
+            else
+              raise ActiveRecord::Rollback
+            end
           end
 
-          if i + 1 == match_plays_count
-            Match.find(play.match_id).destroy!
-          end
+
+          play.destroy!
         end
+
+        match.destroy!
       end
 
       if @player.destroy!
@@ -89,7 +96,7 @@ class PlayersController < ApplicationController
   private
 
   def player_params
-    params.require(:player).permit(:name, :gender, :games_won, :games_lost, :sets_won)
+    params.require(:player).permit(:name, :gender, :games_won, :games_lost, :sets_won, :games_balance, :matches_count)
   end
 
   def set_player

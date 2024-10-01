@@ -1,22 +1,22 @@
 class PagesController < ApplicationController
   def home
     # Inicializando variáveis de jogadores e Ordenando os jogadores
-    @female_players = Player.where(gender: 'Feminino').order(games_won: :desc)
-    @players_ranking = Player.all.order(games_won: :desc)
+    @female_players = Player.where(gender: 'Feminino').where("matches_count > 0").order(sets_won: :desc, games_balance: :desc)
+    @players_ranking = Player.where("matches_count > 0").order(sets_won: :desc, games_balance: :desc)
   end
 
   def delete_all_data
-    # Deletando todos os jogadores
-    Player.delete_all
-
-    # Deletando todos os jogos
-    Match.delete_all
+    # Deletando todos os playplayers
+    PlayPlayer.delete_all
 
     # Deletando todos os jogos
     Play.delete_all
 
     # Deletando todos os jogos
-    PlayPlayer.delete_all
+    Match.delete_all
+
+      # Deletando todos os jogadores
+    Player.delete_all
 
     # Redirecionando para a página inicial
     redirect_to root_path

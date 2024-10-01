@@ -32,7 +32,16 @@ class PlaysController < ApplicationController
           pp.games_lost = games_won_dupla2
           pp.player.games_won += games_won_dupla1
           pp.player.games_lost += games_won_dupla2
-          pp.player.sets_won += 1 if games_won_dupla1 >= 6
+          if games_won_dupla1 == 6 && games_won_dupla2 < 6 || games_won_dupla1 == 7 && games_won_dupla2 <= 6
+            pp.player.sets_won += 1
+            pp.winner = true
+          else
+            pp.winner = false
+          end
+          if Play.where(match_id: @match.id).count == 0
+            pp.player.matches_count += 1
+          end
+          pp.player.games_balance = (pp.player.games_won - pp.player.games_lost)
           pp.player.save!
         end
 
@@ -41,7 +50,16 @@ class PlaysController < ApplicationController
           pp.games_lost = games_won_dupla1
           pp.player.games_won += games_won_dupla2
           pp.player.games_lost += games_won_dupla1
-          pp.player.sets_won += 1 if games_won_dupla2 >= 6
+          if games_won_dupla2 == 6 && games_won_dupla1 < 6 || games_won_dupla2 == 7 && games_won_dupla1 <= 6
+            pp.player.sets_won += 1
+            pp.winner = true
+          else
+            pp.winner = false
+          end
+          if Play.where(match_id: @match.id).count == 0
+            pp.player.matches_count += 1
+          end
+          pp.player.games_balance = (pp.player.games_won - pp.player.games_lost)
           pp.player.save!
         end
       end
@@ -120,13 +138,25 @@ class PlaysController < ApplicationController
       @play.play_players.each do |play_player|
         player = play_player.player
 
+        # Atualiza os dados de games do jogador
         player.games_won -= play_player.games_won
         if player.games_lost < 0
           player.games_lost += play_player.games_lost
         else
           player.games_lost -= play_player.games_lost
         end
-        player.sets_won -= 1 if play_player.games_won >= 6
+
+        player.games_balance = player.games_won - player.games_lost
+
+        # Atualiza os dados de sets do jogador
+        if play_player.winner == true
+          player.sets_won -= 1
+        end
+
+        # Atualiza os dados de partidas do jogador
+        if Play.where(match_id: @play.match_id).count == 1
+          player.matches_count -= 1
+        end
 
         if player.save!
           play_player.destroy!
@@ -155,7 +185,7 @@ class PlaysController < ApplicationController
                                 :date_play,
                                 :dupla1_games,
                                 :dupla2_games,
-                                play_players_attributes: [:player_id, :id, :_destroy, :games_won, :games_lost]
+                                play_players_attributes: [:player_id, :id, :_destroy, :games_won, :games_lost, :winner]
                               )
   end
 
@@ -172,11 +202,14 @@ class PlaysController < ApplicationController
 
     player.games_won += (games_won - old_games_won)
     player.games_lost += (games_lost - old_games_lost)
+    player.games_balance = (player.games_won - player.games_lost)
 
-    if games_won >= 6 && old_games_won < 6
+    if (games_won == 6 && games_lost < 5) && old_games_won < 6 || games_won == 7 && old_games_won <= 6
       player.sets_won += 1
-    elsif games_won < 6 && old_games_won >= 6
+      play_player.winner = true
+    elsif games_won < 6 && old_games_won == 6 || games_won <= 6 && old_games_won == 7
       player.sets_won -= 1
+      play_player.winner = false
     end
 
     Rails.logger.info "Atualizando Player #{player.id} - Games Won: #{player.games_won}, Games Lost: #{player.games_lost}, Sets Won: #{player.sets_won}"

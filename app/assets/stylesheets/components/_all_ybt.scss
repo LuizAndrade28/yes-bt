@@ -29,6 +29,7 @@
   }
 }
 
+
 .menu-options-h4 h4:hover {
   background-color: #e09942 !important;
   color: white !important;
@@ -62,11 +63,27 @@
 
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125);
 
-
   // opacity: 0.7;
   text-decoration: none !important;
   width: 20% !important;
 }
+
+@media (max-width: 1199.9px) {
+  .menu-options {
+    margin-right: 3px;
+    margin-left: 3px;
+  }
+
+  .menu-options a {
+    font-size: 14.5px;
+    width: 33% !important;
+  }
+
+  .font-reduced {
+    font-size: 14.5px;
+  }
+}
+
 //   font-size: 1.5rem;
 
 //   cursor: pointer;
