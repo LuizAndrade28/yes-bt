@@ -1,7 +1,7 @@
 <%= render 'shared/title' %>
 
 <div class="d-flex justify-content-between mt-2">
-  <%= link_to "Deletar e recomeçar", delete_all_data_path, data: { turbo_method: :delete, turbo_confirm: "Deletar tudo e começar do zero. Você tem certeza?" }, class: "opt-color" %>
+  <%= link_to "Deletar e recomeçar", delete_all_data_path, data: { turbo_method: :delete, turbo_confirm: "Deletar tudo e começar do zero. Você tem certeza?" }, class: "opt-color font-reduced" %>
   <div class="d-flex menu-options flex-grow-1">
     <% if controller_name == "pages" %>
       <%= link_to 'Rankings', root_path, id: "menu-one" %>
@@ -19,9 +19,9 @@
   </div>
 
   <% if Match.count >= 1 %>
-    <%= link_to "Exportar dados", export_data_path, class: "opt-color" %>
+    <%= link_to "Exportar dados", export_data_path, class: "opt-color font-reduced" %>
   <% else %>
-    <p class="text-decoration-line-through text-warning">Exportar dados</p>
+    <p class="text-decoration-line-through text-warning font-reduced">Exportar dados</p>
   <% end %>
 </div>
 
