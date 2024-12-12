@@ -40,7 +40,7 @@ class PagesController < ApplicationController
 
     @players_ranking = Player.all.order(games_won: :desc)
     @female_players = Player.where(gender: 'Feminino').order(games_won: :desc)
-    @match_last_date_year = Match.last.match_date.year
+    @match_last_date_year = Match.last&.match_date&.year
 
     p = Axlsx::Package.new #Aqui
     wb = p.workbook

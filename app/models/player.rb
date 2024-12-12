@@ -8,6 +8,10 @@ class Player < ApplicationRecord
   validates :games_won, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :sets_won, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  def self.has_match
+    where('matches_count > 0').exists?
+  end
+
   # def games_balance
   #   games_won - games_lost
   # end
