@@ -1,6 +1,7 @@
 <section id="prime" data-controller="sections-home">
 
-  <%= render 'shared/menu_options' %>
+  <%# render 'shared/menu_options' %>
+  <%= render(MenuOptionsComponent.new(controller: controller_name)) %>
 
   <div id="options">
     <%# Ranking %>
@@ -16,9 +17,9 @@
     </div>
 
     <%# Jogadores %>
-    <div class ="d-none option" id="option-4">
-      <%= render 'players' %>
-    </div>
+    <%# <div class ="d-none option" id="option-4"> %>
+      <%# render 'players' %>
+    <%# </div> %>
 
   </div>
 </section>
