@@ -1,0 +1,15 @@
+<% if helpers.notice %>
+  <div class="alert alert-info alert-dismissible fade show m-1" role="alert">
+    <%= helpers.notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    </button>
+  </div>
+<% end %>
+
+<% if helpers.alert %>
+  <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
+    <%= helpers.alert %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+    </button>
+  </div>
+<% end %>
