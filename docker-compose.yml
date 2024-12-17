@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: yes_bt_development
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgres://postgres:password@db:5432/yes_bt_development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    volumes:
+      - .:/rails
+    command: bash -c "
+      rm -f tmp/pids/server.pid &&
+      bin/rails db:prepare &&
+      bin/rails server -b 0.0.0.0 -p 3000 "
+
+volumes:
+  postgres_data:

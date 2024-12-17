@@ -1,10 +1,11 @@
-<%= render 'shared/menu_options' %>
+<%# render 'shared/menu_options' %>
+<%= render(MenuOptionsComponent.new(controller: controller_name)) %>
 
 <section id="prime" class="table-players" data-controller="sections-home">
 
   <div id="options">
     <%# Partidas %>
-   <%= link_to 'Criar novo jogador', new_player_path, class:"btn btn-warning rounded-4 text-white" %>
+  <%= link_to 'Criar novo jogador', new_player_path, class:"btn btn-warning rounded-4 text-white" %>
   <table class="table table-striped">
     <thead>
       <tr>

@@ -18,7 +18,7 @@
     <% end %>
   </div>
 
-  <% if Match.count >= 1 %>
+  <% if Player.has_match %>
     <%= link_to "Exportar dados", export_data_path, class: "opt-color font-reduced" %>
   <% else %>
     <p class="text-decoration-line-through text-warning font-reduced">Exportar dados</p>

@@ -1,24 +1,25 @@
 <section id="prime" data-controller="sections-home">
 
-  <%= render 'shared/menu_options' %>
+  <%# render 'shared/menu_options' %>
+  <%= render(MenuOptionsComponent.new(controller: controller_name)) %>
 
   <div id="options">
     <%# Ranking %>
     <div>
       <div class="option table-responsive" id="option-1">
-        <%= render 'ranking' %>
+        <%= render(RankingComponent.new(players: @players_ranking)) %>
       </div>
 
       <%# Ranking Feminino %>
       <div class="d-none table-responsive option" id="option-2">
-        <%= render 'female_ranking' %>
+        <%= render(RankingComponent.new(players: @female_players)) %>
       </div>
     </div>
-    
+
     <%# Jogadores %>
-    <div class ="d-none option" id="option-4">
-      <%= render 'players' %>
-    </div>
+    <%# <div class ="d-none option" id="option-4"> %>
+      <%# render 'players' %>
+    <%# </div> %>
 
   </div>
 </section>
