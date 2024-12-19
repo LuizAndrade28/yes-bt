@@ -10,7 +10,8 @@
   </head>
 
   <body>
-    <div class="body-content container">
+    <%# <div class="body-content container"> %>
+    <div style="user-select:none !important;" class="body-content container">
       <%= render(FlashesComponent.new()) %>
       <%# render "shared/flashes" %>
       <%= yield %>
