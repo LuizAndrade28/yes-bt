@@ -25,6 +25,10 @@ p, h1, h2, h3, h4, h5, h6 {
   font-weight: bolder;
 }
 
+a, h1, h2, h3, h4, h5, h6 {
+  user-select: none !important;
+}
+
 html {
   min-height: 100vh;
   // flex: 1;
