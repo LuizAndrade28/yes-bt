@@ -40,7 +40,7 @@ class PagesController < ApplicationController
 
     @players_ranking = Player.all.order(games_won: :desc)
     @female_players = Player.where(gender: 'Feminino').order(games_won: :desc)
-    @match_last_date_year = Match.last&.match_date&.year
+    @match_last_date_year = Match.last&.match_date
 
     p = Axlsx::Package.new #Aqui
     wb = p.workbook
@@ -70,7 +70,7 @@ class PagesController < ApplicationController
     # Enviar o arquivo para download
     temp = Tempfile.new(["data", ".xlsx"], binmode: true)
     p.serialize(temp.path)
-    send_file temp.path, filename: "data-#{@match_last_date_year}-#{Date.today}.xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    send_file temp.path, filename: "data-#{@match_last_date_year ? @match_last_date_year : Date.today}.xlsx", type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
     # Fechar o arquivo temporário
     temp.close
